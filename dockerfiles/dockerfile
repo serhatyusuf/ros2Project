@@ -11,16 +11,15 @@ RUN apt-get install -y software-properties-common curl gnupg \
     && curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key | gpg --dearmor -o /usr/share/keyrings/ros-archive-keyring.gpg \
     && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" > /etc/apt/sources.list.d/ros2.list
 
-#ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=Europe/Istanbul
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+RUN apt-get update && apt-get install python3-colcon-common-extensions -y
 
 RUN apt-get update && apt-get install -y ros-humble-desktop \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # ROS ortamını aktif hale getirme
-#ros2 tanınmadı aşağıdaki satırda
-#CMD ["bash", "-c", "source /opt/ros/humble/setup.bash && exec bash"]
-
 RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
-
+RUN echo "source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash" >> ~/.bashrc
