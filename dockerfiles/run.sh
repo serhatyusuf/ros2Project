@@ -14,5 +14,3 @@ docker run -it \
     --privileged \
     ros2 \
     bash
-
-echo "Done."
