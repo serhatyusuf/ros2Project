@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  ros2: 
+    image: ros2
+    volumes:
+      - ./src:/root/ros2_ws/src
+    ports:
+      - "8080:8080"  
+      - "11311:11311"
+    tty: true
